@@ -1,0 +1,87 @@
+import random
+
+import math, itertools, nltk, curses
+
+from curses.ascii import isdigit
+
+from nltk.corpus import cmudict
+
+d=cmudict.dict()
+
+def nmeter(word):           
+    s=''
+    if word not in d:
+        return '0'
+    else:
+        L=list((y for y in d[word.lower()][0] if isdigit(y[-1])))
+        for i in range(len(L)):
+            if ord(L[i][-1])== 49:  
+                s=s+'/'
+            else:
+                s=s+'x'
+        return s
+
+def r(L):
+	return random.sample(L,1)[0]
+	
+def mgroups2(text):
+  ##This function takes a text as an input. It analyzes all of the word in the text by 
+  #part of speech and syllable stressing. The function globally defines pos and syllable groups.
+  words=nltk.word_tokenize(text)
+  words=sorted(set(words))
+  i=0
+  while ord(words[i][0])<65:
+     i=i+1
+  words=words[i:]
+  i=0
+  while ord(words[i][0])<97:
+     i=i+1
+  for j in range(i):
+    words[j]=words[j].lower()
+  i=0
+  while ord(words[i][0])<97:
+     i=i+1
+  words=words[i:]
+  words=sorted(set(words))
+  syl=words[:]
+  for word in syl:
+     if word not in d:
+        syl.remove(word)
+  global total,subjects,objects,adjectives,adverbs,verbs,modifiers,interjections,single,singlex,iamb2,iamb3,trochee,dactyl,anapest,four1,four2,four3,four4
+  total=syl
+  trochee=iamb2=iamb3=single=singlex=dactyl=anapest=four1=four2=four3=four4=[]
+  trochee = [word for word in syl if nmeter(word)=='/x']
+  iamb2 = [word for word in syl if nmeter(word)=='x/']
+  iamb3 = [word for word in syl if nmeter(word)=='x/x']
+  single = [word for word in syl if nmeter(word)=='/']
+  singlex = [word for word in syl if nmeter(word)=='x']
+  dactyl = [word for word in syl if nmeter(word)=='/xx']
+  anapest = [word for word in syl if nmeter(word)=='xx/']
+  four1 = [word for word in syl if nmeter(word)=='/xxx']
+  four2 = [word for word in syl if nmeter(word)=='x/xx']
+  four3 = [word for word in syl if nmeter(word)=='xx/x']
+  four4 = [word for word in syl if nmeter(word)=='xxx/']
+  words=nltk.pos_tag(words)
+  subjects=objects=adjectives=adverbs=verbs=modifiers=interjections=[]
+  subjects= [word for word,pos in words if (pos==('NN' or 'NNS' or 'NNP' or 'NNPS' or 'WP') and word != ('me' or 'him' or 'her' or 'us' or 'them'))]
+  objects = [word for word,pos in words if (pos==('NN' or 'NNS' or 'NNP' or 'NNPS' or 'PRP') and word != ('I' or 'he' or 'she' or 'we' or 'they'))]
+  adjectives = [word for word,pos in words if pos==('JJ' or 'JJR' or 'JJS' or 'PRP$'or 'RBR' or 'RBS')]
+  adverbs = [word for word,pos in words if pos==('RB')]
+  verbs = [word for word,pos in words if pos==('VB' or 'VBP' or 'VBZ'or 'VBD')]
+  interjections = [word for word,pos in words if pos==('UH')]
+  modifiers = adjectives + adverbs
+  modifiers = modifiers + [word for word,pos in words if (pos=='VBN')]
+  
+def check_words2():
+	##running this function tells you which types of words are missing in your word group
+	#so that you can either add words or limit the structures you employ accordingly.
+	#singlex-type words are apparently pretty rare, so if you find that you don't really have 
+	#any, you might want to run singlex=singlex+single.
+	p=[subjects,objects,adjectives,adverbs,verbs,interjections]
+	p2=['subject','object','adjective','adverb','verb','interjection']
+	syl=[single,singlex,iamb2,iamb3,trochee,dactyl,anapest,four1,four2,four3,four4]
+	syl2=['single','singlex','iamb2','iamb3','trochee','dactyl','anapest','four1','four2','four3','four4']
+	for i in range(len(p)):
+		for j in range(len(syl)):
+			if (list(set(p[i]).intersection(syl[j])))==[]:
+				print('You do not have any ',p2[i], 'that is a(n) ',syl2[j],'in this word group.')  	
