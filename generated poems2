@@ -1,0 +1,101 @@
+def poemtest2():
+    title=str.upper(r(adjectives)+' '+r(objects))
+    print(title)
+    a=meter2('trochaic',3,3,adverbs,adverbs,adverbs)
+    for j in range(4):
+        print(meter2('iambic',3,3,adjectives,subjects,verbs))
+        print(meter2('trochaic',4,3,adverbs,subjects,verbs,objects))
+        print(meter2('trochaic',4,3,subjects,verbs,adjectives,objects))
+        if j%3==0:
+            print(a,'\n')
+        else:
+            print(meter2('trochaic',3,3,adverbs,adverbs,adverbs),'\n')
+            
+POEMS USING ALICE'S ADVENTURES IN WONDERLAND
+            
+WASH BUSINESS
+ belong  protection  oop 
+ slowly  wood  canary  cauldron 
+ bright  account uneasy  mabel 
+ well  however  always  
+
+ appear  existence  let 
+ soon  existence  climb  eleventh 
+ bark  today uncommon  footman 
+ well  severely  shyly  
+
+ prevent  beheading  keep 
+ ready  good  canary  standing 
+ kick  again indignant  wander 
+ quite  alone  extremely  
+
+ inside  confusion  win 
+ not  suppose  canary  toffee 
+ bat  canary  snatch  impatient 
+ clever  then  however  
+ 
+HUMBLE CUSHION
+ inside  absurd  dismay
+ yet  advantage  william  older 
+ rest  despair delightful  lobster 
+ won't  perhaps  severely  
+
+ prevent  affair  explain
+ still  respect  canary  poison 
+ course  relieved enormous  carry 
+ far  forgotten  ever  
+
+ inside  mistake  improve
+ else  retire  canary  concert 
+ fat  canary  easy  pocket 
+ else  again  forgotten  
+
+ belong  effect  account
+ well  affair  canary  pleasure 
+ water  wow  respectful  busy 
+ won't  perhaps  severely  
+ 
+ POEMS USING FRANKENSTEIN
+ 
+ FRANTIC UNCERTAIN
+ prevail  unlike  forget 
+ far  triumphant  scale  extinguish 
+ drag  provide  attractive  filthy 
+ forward  far  securely  
+
+ unfair  apartment  strove 
+ right  redeem  continue  era 
+ pardon  have  disquiet  distance 
+ kindly  sly  whatever  
+
+ important  cave  forget 
+ here  composure  let  dependent 
+ blind  afraid  important  ogre 
+ ugly  thus  volcano  
+
+ italian  wise  renew 
+ know  indecent  shoulder  wakefield 
+ pig  continue  longed  confession 
+ forward  far  securely  
+ 
+ 
+ NATURAL FIRMNESS
+ forgive  exhaustion  let 
+ yon  devotion  impulse  dungeon 
+ try  continue  darkened  volume 
+ fully  sphere  volcano  
+
+ revive  observing  scale 
+ fast  exhaustion  reap  almighty 
+ household  orb  external  mother 
+ quite  forever  meanwhile  
+
+ domestic  lynn  afraid 
+ here  inscription  orb  remember 
+ faith  asleep  external  fifty 
+ vainly  mere  profoundly  
+
+ unsullied  save  provide 
+ still  agrippa  be  albertus 
+ story  reap  paternal  recall 
+ fully  sphere  volcano   
