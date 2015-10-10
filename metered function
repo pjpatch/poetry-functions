@@ -1,0 +1,178 @@
+import random
+
+import math, itertools, nltk, curses
+
+from curses.ascii import isdigit
+
+from nltk.corpus import cmudict
+
+d=cmudict.dict()
+
+def r(L):
+	return random.sample(L,1)[0]
+	
+def tuplelist(tup):
+	if len(tup)==1:
+		return [tup[0]]
+	else:
+		return list(tup)	
+	
+	
+def spaces(possible,words,maxsyl=3):
+	s=[]
+	l=[]
+	for i in range(1,possible+1):
+		s=s+[i]
+	l=l+list(itertools.combinations(s,words-1))
+	for q in range(len(l)):
+		l[q]=tuplelist(l[q])
+	L=l[:]
+	for k in l:
+		if k[0]>maxsyl:
+			L.remove(k)
+	m=L[:]
+	for z in L:
+		if (possible+1)-z[-1]>maxsyl:
+			m.remove(z)
+	N=m[:]
+	if words>1:
+		for r in m:
+			p=1
+			while p<words-1:
+				if (r[p]-r[p-1])<=maxsyl:
+					p=p+1
+				else:
+					N.remove(r)
+					p=len(r)
+		else:
+			pass
+	return N	
+	
+def meter2(syllables,feet,maxsyl=3,a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,i=0,j=0):
+    ##This function returns a metered line of poetry. The first input is the type of meter, and the second input is how many 'feet' you want. 
+    #The "maxsyl' input is set to 3 by
+    #default and should be set to the number of syllables in the word in your group of
+    #words with the highest number of syllables. Then input which part of speech (NOT in
+    #string form) you want each word in the line to be. For example, for a line of iambic
+    #pentameter with four words- subject, transitive verb, object, adverb- your inputs 
+    #would be " 'iambic', 5, maxsyl, subjects, transitives, objects, adverbs ". if you 
+    #only have one and two syllable words available, for example, you should set maxsyl as 2.
+    ##In this version, if you call for a word to be a part of speech that does not have any
+    #words that fit the meter, the function will replace it with ANY word that fits the meter.
+    W=[a,b,c,d,e,f,g,h,i,j]
+    L=l=''
+    xx=0
+    if syllables=='trochaic':
+        l,xx='/x',0
+    if syllables=='iambic':
+        l,xx='x/',1
+    if syllables=='dactyllic':
+        l,xx='/xx',4
+    if syllables=='anapestic':
+        l,xx='xx/',3
+    for i in range(feet*len(l)-1):
+        L=L+l[i%len(l)]+str(i+1)
+    L=L+l[-1]
+    w=0
+    line=''
+    for k in W:
+        if k!=0:
+            w=w+1
+    if w<math.ceil((len(l)*feet)/maxsyl):
+        return 'ERROR: In order to have a maximum of ' +str(maxsyl)+' syllables, you must input at least ' + str(math.ceil((len(l)*feet)/maxsyl)) + ' words.'
+    X=spaces(len(l)*feet-1,w,maxsyl)
+    X2=X[:]
+    for v in X:
+        f=1
+        while f<w-1:
+            if (v[f]%len(l)==xx%len(l) or v[f]-v[f-1]!=len(l)+1):
+                f=f+1
+            else:
+                X2.remove(v)
+                f=w-1
+        X=X2[:]
+    for v in X:
+        if (xx%2==0 and v[0]==len(l)+1) or (xx%2==1 and v[-1]==(len(l)*feet)-(len(l)+1)):
+            X2.remove(v)
+            X=X2[:]
+    if syllables=='dactyllic' or 'anapestic':
+        for v in X:
+            index=1
+            while index<w-1:
+                if (v[index]%3==xx%3 or v[index]-v[index-1]!=2):
+                    index=index+1
+                else:
+                    X2.remove(v)
+                    index=w-1
+            X=X2[:]
+        for v in X:
+            if (xx==3 and v[0]==2) or (xx==4 and v[-1]==(len(l)*feet)-2):
+                X2.remove(v)
+    if X2==[]:
+        return 'ERROR. Please input more words.'
+    x=random.choice(X2)
+    for i in range(len(l)*feet):
+        if list(set(x).intersection([i]))==[]:
+            L=L.replace(str(i),'')
+    L=str(L)
+    for j in x:
+        L=L.replace(str(j),',')
+    L=L.split(',')
+    for p in range(w):
+        z=set(W[p])
+        if L[p]=='/x':
+            if list(set(trochee).intersection(z))==[]:
+                line=line+(' '+random.choice(trochee))
+            else:
+                line=line+(' '+random.choice(list(set(trochee).intersection(z)))+' ')
+        if L[p]=='x/':
+            if list(set(iamb2).intersection(z))==[]:
+                line=line+(' '+random.choice(iamb2))
+            else:
+                line=line+(' '+random.choice(list(set(iamb2).intersection(z)))+' ')
+        if L[p]=='x/x':
+            if list(set(iamb3).intersection(z))==[]:
+                line=line+(' '+random.choice(iamb3))
+            else:
+                line=line+(' '+random.choice(list(set(iamb3).intersection(z)))+' ')
+        if L[p]=='/':
+            if list(set(single).intersection(z))==[]:
+                line=line+(' '+random.choice(single))
+            else:
+                line=line+(' '+random.choice(list(set(single).intersection(z)))+' ')
+        if L[p]=='x':
+            if list(set(singlex).intersection(z))==[]:
+                line=line+(' '+random.choice(singlex))
+            else:
+                line=line+(' '+random.choice(list(set(singlex).intersection(z)))+' ')
+        if L[p]=='/xx':
+            if list(set(dactyl).intersection(z))==[]:
+                line=line+(' '+random.choice(dactyl))
+            else:
+                line=line+(' '+random.choice(list(set(dactyl).intersection(z)))+' ')
+        if L[p]=='xx/':
+            if list(set(anapest).intersection(z))==[]:
+                line=line+(' '+random.choice(anapest))
+            else:
+                line=line+(' '+random.choice(list(set(anapest).intersection(z)))+' ')
+        if L[p]=='/xxx':
+            if list(set(four1).intersection(z))==[]:
+                line=line+(' '+random.choice(four1))
+            else:
+                line=line+(' '+random.choice(list(set(four1).intersection(z)))+' ')
+        if L[p]=='x/xx':
+            if list(set(four2).intersection(z))==[]:
+                line=line+(' '+random.choice(four2))
+            else:
+                line=line+(' '+random.choice(list(set(four2).intersection(z)))+' ')
+        if L[p]=='xx/x':
+            if list(set(four3).intersection(z))==[]:
+                line=line+(' '+random.choice(four3))
+            else:
+                line=line+(' '+random.choice(list(set(four3).intersection(z)))+' ')
+        if L[p]=='xxx/':
+            if list(set(four4).intersection(z))==[]:
+                line=line+(' '+random.choice(four4))
+            else:
+                line=line+(' '+random.choice(list(set(four4).intersection(z)))+' ')
+    return line	
