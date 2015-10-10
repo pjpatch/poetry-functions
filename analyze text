@@ -8,6 +8,17 @@ from nltk.corpus import cmudict
 
 d=cmudict.dict()
 
+##Example of importing text
+#from urllib import request
+#url = "http://www.gutenberg.org/files/11/11.txt"
+#response = request.urlopen(url)
+#alice = response.read().decode('utf8')
+#alice=alice.split('*** START OF THIS PROJECT GUTENBERG EBOOK')[1]
+#alice=alice.split('*** END OF THIS PROJECT GUTENBERG EBOOK')[0]
+##Make sure to include those last two lines to delete the introduction, as well as the lengthy lcensing information
+#at the end of the e-book, so that you don't end up with words like "email" and "www.gutenberg.com"
+#in your word corpus for Alice in Wonderland.
+
 def nmeter(word):           
     s=''
     if word not in d:
