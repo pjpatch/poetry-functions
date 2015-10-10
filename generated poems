@@ -1,0 +1,46 @@
+def poem():
+	subjects=['happiness','sunshine','unicorn','moonlight','magic','he','she','they','eyes']
+	objects=['her','love','baby','majesty','him','affection']
+	transitives=['held','loved','belonged to', 'believed', 'cursed','kissed','imagined','saw','sparkled']
+	intransitives=['died','wept','fainted']
+	adverbs=['slowly','softly','lovingly','faintly','perfectly']
+	adjectives=['her','their','magic','dirty','perfect','crystal','equine','soft','tangled','dewy']
+	title=str.upper(r(adjectives)+' '+r(objects))
+	a=r(adverbs)+' '+r(subjects)+' '+r(intransitives)
+	print(title,'\n ','\n ',r(subjects),r(transitives),r(objects),';\n ',a,';\n ',r(subjects),'was',r(adverbs),r(adjectives),';\n ', r(adverbs),r(adverbs),r(adverbs),';\n ',r(subjects),r(adverbs),r(transitives),r(adjectives),r(objects),';\n ',a,'.')
+
+DIRTY HER 
+  
+  moonlight kissed baby ;
+  slowly moonlight died ;
+  he was lovingly her ;
+  lovingly perfectly softly ;
+  unicorn lovingly held dirty affection ;
+  slowly moonlight died 
+  
+DEWY BABY 
+  
+  they loved majesty ;
+  faintly magic died ;
+  unicorn was softly crystal ;
+  perfectly slowly perfectly ;
+  eyes slowly held dewy him ;
+  faintly magic died .
+  
+SOFT BABY 
+  
+  happiness cursed him ;
+  lovingly moonlight died ;
+  eyes was perfectly tangled ;
+  lovingly slowly slowly ;
+  they slowly sparkled magic majesty ;
+  lovingly moonlight died .
+  
+DIRTY LOVE 
+  
+  they cursed baby ;
+  faintly magic wept ;
+  magic was softly her ;
+  softly faintly slowly ;
+  unicorn perfectly loved tangled affection ;
+  faintly magic wept .  
